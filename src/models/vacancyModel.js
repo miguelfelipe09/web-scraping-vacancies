@@ -12,7 +12,7 @@ export const vacancyModel = {
         `);        
     },
 
-    async addVacancy({ name, link, enterprise }) {
+    async addVacancy({ name, link, enterprise, tags }) {
     if (!name || !link || !enterprise) {
         console.warn("⚠️ Vaga ignorada — dados incompletos:", { name, link, enterprise });
         return;
@@ -25,8 +25,8 @@ export const vacancyModel = {
 
     if (rows.length === 0) {
         await pool.execute(
-        `INSERT INTO vacancies (name, link, enterprise) VALUES (?, ?, ?)`,
-        [name, link, enterprise]
+        `INSERT INTO vacancies (name, link, enterprise, tags) VALUES (?, ?, ?, ?)`,
+        [name, link, enterprise, JSON.stringify(tags)]
         );
     }
     },
@@ -45,5 +45,5 @@ export const vacancyModel = {
         `, [id]);
 
         return rows;
-    }
+    },
 }
