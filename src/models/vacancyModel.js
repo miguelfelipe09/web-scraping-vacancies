@@ -7,12 +7,14 @@ export const vacancyModel = {
                 id INT AUTO_INCREMENT PRIMARY KEY,
                 name VARCHAR(255) NOT NULL,
                 link VARCHAR(500),
-                enterprise VARCHAR(50)
+                enterprise VARCHAR(50),
+                createdAt VARCHAR(50),
+                tags JSON
             )    
         `);        
     },
 
-    async addVacancy({ name, link, enterprise, tags }) {
+    async addVacancy({ name, link, enterprise, createdAt, tags }) {
     if (!name || !link || !enterprise) {
         console.warn("⚠️ Vaga ignorada — dados incompletos:", { name, link, enterprise });
         return;
@@ -25,8 +27,8 @@ export const vacancyModel = {
 
     if (rows.length === 0) {
         await pool.execute(
-        `INSERT INTO vacancies (name, link, enterprise, tags) VALUES (?, ?, ?, ?)`,
-        [name, link, enterprise, JSON.stringify(tags)]
+        `INSERT INTO vacancies (name, link, enterprise, createdAt, tags) VALUES (?, ?, ?, ?, ?)`,
+        [name, link, enterprise, createdAt, JSON.stringify(tags)]
         );
     }
     },

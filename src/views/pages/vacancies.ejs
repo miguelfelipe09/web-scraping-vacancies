@@ -1,0 +1,51 @@
+<%- include('../partials/header', { title: 'Tech Vagas' }) %>
+
+<main class="layout">
+  <!-- 🔍 Sidebar -->
+  <aside class="sidebar">
+    <h2>Filtros</h2>
+    <form action="/" method="get" id="searchForm" class="filter-form">
+      <input 
+        type="text" 
+        id="searchInput" 
+        name="q" 
+        placeholder="Buscar por vaga ou empresa..."
+        value="<%= typeof search !== 'undefined' ? search : '' %>"
+      />
+      <button type="submit">Buscar</button>
+    </form>
+  </aside>
+
+  <!-- 💼 Lista de vagas -->
+  <section class="jobs">
+    <div class="jobs-header">
+      <h2>Exibindo <%= vacancies.length %> vagas</h2>
+    </div>
+
+    <% if (vacancies && vacancies.length > 0) { %>
+      <% vacancies.forEach(v => { %>
+        <div class="job-card">
+          <div class="job-info">
+            <div>
+              <h3><%= v.name %></h3>
+              <p class="enterprise"><%= v.enterprise %></p>
+              <p class="createdAt">📅 <%= v.createdAt || 'Data não informada' %></p>
+            </div>
+            <div class="tags">
+              <% if (v.tags && v.tags.length) { %>
+                <% v.tags.forEach(tag => { %>
+                  <span class="tag"><%= tag %></span>
+                <% }) %>
+              <% } %>
+            </div>
+          </div>
+          <a href="<%= v.link %>" target="_blank" class="details-btn">Ver Detalhes</a>
+        </div>
+      <% }) %>
+    <% } else { %>
+      <p class="no-vacancies">Nenhuma vaga encontrada.</p>
+    <% } %>
+  </section>
+</main>
+
+<%- include('../partials/footer') %>
